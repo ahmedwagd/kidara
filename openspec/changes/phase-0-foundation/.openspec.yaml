@@ -1,0 +1,4 @@
+schema: spec-driven
+created: 2026-11-02
+goal: A repository that builds, runs, and tests with a single command.
+skip_specs: true
