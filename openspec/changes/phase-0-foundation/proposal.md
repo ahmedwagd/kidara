@@ -6,7 +6,7 @@ The Daily Loop design is approved, but the repository contains only the engineer
 
 ## What Changes
 
-- **Monorepo:** pnpm workspaces + Turborepo, shared TypeScript bases, ESLint, Prettier, and one-command scripts.
+- **Monorepo:** npm workspaces + Turborepo, shared TypeScript bases, ESLint, Prettier, and one-command scripts.
 - **Local infrastructure:** Docker Compose for PostgreSQL 16, Redis 7, and MinIO with health checks and named volumes.
 - **API bootstrap:** NestJS 11 with Zod-validated config, global validation, the `{ code, message, details?, requestId }` error envelope, structured logging, request correlation, and `/health`.
 - **Database baseline:** Prisma schema limited to `Nursery`, `User`, `UserProfile`, and `Staff`; a migration workflow; an idempotent seed with one demo nursery and one user per role.
@@ -32,6 +32,6 @@ None.
 - **New paths:** `apps/api/`, `apps/web/`, `packages/shared/`, `docker-compose.yml`, `turbo.json`, `.github/workflows/ci.yml`, and root workspace/config files.
 - **Existing paths:** `AGENTS.md` and `docs/` are read-only for this change; `openspec/` gains this change only.
 - **Database:** four baseline tables; no child, health, or assessment data.
-- **Runtime:** Node 22 LTS, pnpm, PostgreSQL 16, Redis 7, MinIO.
+- **Runtime:** Node 22 LTS, npm, PostgreSQL 16, Redis 7, MinIO.
 - **Dependencies:** the locked stack only; each addition is justified in its PR per `AGENTS.md` §4.
 - **Risk:** tooling over-configuration. Mitigation: no infrastructure beyond the items above.

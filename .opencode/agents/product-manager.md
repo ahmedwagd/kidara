@@ -275,7 +275,7 @@ A requirement is acceptable only when all of these hold:
 
 - The repository has `AGENTS.md`, `.opencode/agents/`, the approved design doc, and the approved plan. There is no application code, `openspec/` directory, PRD, SRS, or git repository yet.
 - The approved design is `docs/superpowers/specs/2026-11-02-daily-loop-design.md`; the approved plan is `docs/superpowers/plans/2026-11-02-daily-loop-implementation-plan.md`.
-- The stack is locked to NestJS 11 + React 19 + PostgreSQL 16 + Prisma + Redis/BullMQ + pnpm workspaces + Turborepo, Node 22.
+- The stack is locked to NestJS 11 + React 19 + PostgreSQL 16 + Prisma + Redis/BullMQ + npm workspaces + Turborepo, Node 22.
 - The build order is 0 setup → 1 identity + children + tenancy → 2 enrollment → 3 attendance + pickup → 4 daily sheet → 5 notifications → 6 health + incidents → 7 assessment + passport → 8 calendar → 9 pilot hardening.
 - Two gates are already approved in the plan: a usability test with three real teachers before Phase 5, and a two-week pilot in a partner nursery before launch.
 - There is no OpenSpec root yet. Do not create `openspec/` as a side effect; ask per AGENTS.md §19.2.

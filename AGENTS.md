@@ -72,10 +72,12 @@ These are product promises. Breaking one is a bug, not a trade-off.
 | Auth | JWT access (short) + rotating refresh, argon2, OTP |
 | Storage | S3-compatible (verification documents only) |
 | Push | `web-push` + VAPID |
-| Package manager | **pnpm** workspaces + Turborepo |
+| Package manager | **npm** workspaces + Turborepo |
 | Runtime | Node 22 LTS |
 
 **Monorepo:** `apps/api` (NestJS) + `apps/web` (React) + `packages/shared` (Zod contracts and constants).
+
+**One lockfile:** `package-lock.json` at the repository root. Do not add `pnpm-lock.yaml`, `yarn.lock`, or a second lockfile. CI installs with `npm ci`.
 
 Do not add a dependency without stating, in the PR description: what it does, why the standard library or an existing dependency is not enough, its license, and its maintenance status. Prefer fewer dependencies.
 
@@ -126,20 +128,20 @@ Do not add a dependency without stating, in the PR description: what it does, wh
 Confirm against `package.json` / `turbo.json`; if a script is missing, add it in the first PR that needs it.
 
 ```bash
-pnpm install
-pnpm dev                   # api + web
-pnpm build
-pnpm typecheck             # tsc --noEmit across workspaces
-pnpm lint                  # eslint
-pnpm test                  # unit
-pnpm test:int              # integration (requires Postgres + Redis)
-pnpm test:e2e              # Playwright
-pnpm format:check
+npm install
+npm run dev               # api + web
+npm run build
+npm run typecheck         # tsc --noEmit across workspaces
+npm run lint              # eslint
+npm test                  # unit
+npm run test:int          # integration (requires Postgres + Redis)
+npm run test:e2e          # Playwright
+npm run format:check
 
 docker compose up -d       # Postgres 16, Redis 7, MinIO
-pnpm --filter api prisma migrate dev
-pnpm --filter api prisma generate
-pnpm --filter api prisma db seed
+npm run prisma:migrate -w apps/api
+npm run prisma:generate -w apps/api
+npm run prisma:seed -w apps/api
 ```
 
 Before declaring a task done, all of the above that apply to the files you touched must pass.

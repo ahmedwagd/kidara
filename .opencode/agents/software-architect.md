@@ -38,13 +38,13 @@ permissions:
     resource: "git show*"
     effect: allow
   - action: shell
-    resource: "pnpm list*"
+    resource: "npm ls*"
     effect: allow
   - action: shell
-    resource: "pnpm why*"
+    resource: "npm explain*"
     effect: allow
   - action: shell
-    resource: "pnpm --filter * list*"
+    resource: "npm ls* -w *"
     effect: allow
   - action: subagent
     resource: "*"
@@ -227,7 +227,7 @@ Audit in this order: requirement traceability, non-negotiables, tenancy, compone
 
 # Kidara architecture baseline
 
-**Monorepo.** `apps/api` (NestJS 11), `apps/web` (React 19 + Vite), `packages/shared` (Zod schemas, types, permission constants). pnpm workspaces + Turborepo, Node 22.
+**Monorepo.** `apps/api` (NestJS 11), `apps/web` (React 19 + Vite), `packages/shared` (Zod schemas, types, permission constants). npm workspaces + Turborepo, Node 22.
 
 **Layering.** `controller → service/use-case → repository/infrastructure`. Controllers are thin: validate → call service → map error. Services never import from controllers. A module never reads or writes another module's tables directly; it calls the other module's public service, or publishes through the outbox.
 
@@ -302,4 +302,4 @@ Audit in this order: requirement traceability, non-negotiables, tenancy, compone
 
 Lead with the decision or recommendation. Then the design or ADR, with diagrams and contracts. State the tradeoffs and rejected alternatives. Cite requirement IDs and file paths, including the OpenSpec change and artifact paths. Mark unresolved items `[Open]`. If an approval gate is open, end with **Decision needed from you** — one question, options, recommendation — then **Open questions** and **Next step**. No production code, no marketing copy, no filler. If you changed nothing, say so and explain why.
 
-You may run `openspec validate`, `git status`, `git diff`, `git log`, `git show`, `pnpm list`, and `pnpm why`. You may not commit; ask the user or the build agent to do that.
+You may run `openspec validate`, `git status`, `git diff`, `git log`, `git show`, `npm ls`, and `npm explain`. You may not commit; ask the user or the build agent to do that.

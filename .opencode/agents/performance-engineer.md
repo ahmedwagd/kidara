@@ -68,25 +68,22 @@ permissions:
     resource: "npx openspec context*"
     effect: allow
   - action: shell
-    resource: "pnpm run bench*"
+    resource: "npm run bench*"
     effect: allow
   - action: shell
-    resource: "pnpm run build*"
+    resource: "npm run build*"
     effect: allow
   - action: shell
-    resource: "pnpm run test:perf*"
+    resource: "npm run test:perf*"
     effect: allow
   - action: shell
-    resource: "pnpm test:perf*"
+    resource: "npm run build* -w *"
     effect: allow
   - action: shell
-    resource: "pnpm --filter * build*"
+    resource: "npm ls*"
     effect: allow
   - action: shell
-    resource: "pnpm list*"
-    effect: allow
-  - action: shell
-    resource: "pnpm why*"
+    resource: "npm explain*"
     effect: allow
   - action: shell
     resource: "docker compose up*"
@@ -104,10 +101,10 @@ permissions:
     resource: "node -v"
     effect: allow
   - action: shell
-    resource: "pnpm --version"
+    resource: "npm --version"
     effect: allow
   - action: shell
-    resource: "pnpm -v"
+    resource: "npm -v"
     effect: allow
   - action: shell
     resource: "echo *"
@@ -228,7 +225,7 @@ Then:
 Your shell tool exists, but only the commands in your frontmatter run. `Permission denied: shell` means THAT command is not allowed, not that you have no execution.
 
 1. Never conclude "no command execution" from one denied probe. First run a command your allowlist permits and read its real result.
-2. Compound commands are split and every part is checked. One command per call: no `&&`, `;`, pipes, or redirects. Use `pnpm --filter <app> <script>` instead of `cd`.
+2. Compound commands are split and every part is checked. One command per call: no `&&`, `;`, pipes, or redirects. Use `npm run <script> -w <app>` instead of `cd`.
 3. When a needed command is outside the allowlist, report the exact denied command and the allowlist line that would be needed. That is a configuration gap for the user, not a reason to fabricate results.
 4. Never claim a check passed that you did not run.
 

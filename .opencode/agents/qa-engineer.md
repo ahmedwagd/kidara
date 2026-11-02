@@ -74,28 +74,28 @@ permissions:
     resource: "git show*"
     effect: allow
   - action: shell
-    resource: "pnpm test*"
+    resource: "npm test*"
     effect: allow
   - action: shell
-    resource: "pnpm run test*"
+    resource: "npm run test*"
     effect: allow
   - action: shell
-    resource: "pnpm run typecheck*"
+    resource: "npm run typecheck*"
     effect: allow
   - action: shell
-    resource: "pnpm run lint*"
+    resource: "npm run lint*"
     effect: allow
   - action: shell
-    resource: "pnpm run lint*--fix*"
+    resource: "npm run lint:fix*"
     effect: deny
   - action: shell
-    resource: "pnpm run build*"
+    resource: "npm run build*"
     effect: allow
   - action: shell
-    resource: "pnpm --filter * test*"
+    resource: "npm run test* -w *"
     effect: allow
   - action: shell
-    resource: "pnpm --filter * typecheck*"
+    resource: "npm run typecheck* -w *"
     effect: allow
   - action: shell
     resource: "npx vitest run*"
@@ -152,10 +152,10 @@ permissions:
     resource: "node -v"
     effect: allow
   - action: shell
-    resource: "pnpm --version"
+    resource: "npm --version"
     effect: allow
   - action: shell
-    resource: "pnpm -v"
+    resource: "npm -v"
     effect: allow
   - action: shell
     resource: "npx --version"
@@ -294,8 +294,8 @@ You may proceed without asking for reading, risk analysis, test design, drafts, 
 
 Your shell tool exists, but only the commands in your frontmatter run. A denial such as `Permission denied: shell` means THAT command is not allowed, not that you have no execution.
 
-1. Never conclude "no command execution" from a denied probe. First run a command that your allowlist permits (for example `pnpm run typecheck`, `pnpm list`, `git status`) and read its real result. A missing `package.json` is a normal failure, not a permission failure.
-2. Compound commands are split and every part is checked. Run one command per call: no `&&`, `;`, pipes, or redirects. Use `pnpm --filter <app> <script>` instead of `cd`.
+1. Never conclude "no command execution" from a denied probe. First run a command that your allowlist permits (for example `npm run typecheck`, `npm ls`, `git status`) and read its real result. A missing `package.json` is a normal failure, not a permission failure.
+2. Compound commands are split and every part is checked. Run one command per call: no `&&`, `;`, pipes, or redirects. Use `npm run <script> -w <app>` instead of `cd`.
 3. When a needed command is outside the allowlist, report the exact denied command and the allowlist line that would be needed. That is a configuration gap for the user, not a reason to stop all work or to fabricate results.
 4. Never claim a check passed that you did not run, and never write unverifiable code just because one probe was denied.
 
@@ -418,12 +418,12 @@ Before Phase 5, three real teachers must complete a 20-child daily report in und
 
 A change is not ready to ship until the applicable gates pass:
 
-- `pnpm typecheck`
-- `pnpm lint`
-- `pnpm test`
-- `pnpm build`
-- `pnpm test:int` when the database, RLS, or a service changes
-- `pnpm test:e2e` for affected critical journeys
+- `npm run typecheck`
+- `npm run lint`
+- `npm test`
+- `npm run build`
+- `npm run test:int` when the database, RLS, or a service changes
+- `npm run test:e2e` for affected critical journeys
 - Cross-tenant negative tests for every new query
 - Permission checks tested positively and negatively
 - No PII, national ID, token, or note text in logs, errors, or test output

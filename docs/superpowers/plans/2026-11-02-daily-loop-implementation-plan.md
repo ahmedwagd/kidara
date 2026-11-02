@@ -79,7 +79,7 @@ kidara/
 **الهدف:** مستودع يبني، يشغل، ويتختبر بأمر واحد.
 
 ### المهام
-1. **Monorepo:** pnpm workspaces + Turborepo، وضبط `tsconfig` مشترك و`eslint`/`prettier`.
+1. **Monorepo:** npm workspaces + Turborepo، وضبط `tsconfig` مشترك و`eslint`/`prettier`.
 2. **Docker compose:** PostgreSQL 16، Redis 7، MinIO (تخزين محلي بديل S3).
 3. **NestJS bootstrap:** config module (env validated by Zod)، global validation pipe، موحد لشكل الأخطاء `{ code, message, details, requestId }`، structured logging، `/health`.
 4. **Prisma:** schema أولي، migration workflow، seed لحضانة تجريبية + مستخدمين لكل دور.
@@ -90,7 +90,7 @@ kidara/
 9. **Observability:** request-id middleware، log correlation، Sentry (اختياري).
 
 ### معايير الخروج
-- `pnpm dev` يشغل API + Web + DB.
+- `npm run dev` يشغل API + Web + DB.
 - تسجيل دخول تجريبي لكل دور يعمل.
 - CI أخضر على أول PR.
 - `shared` package يمنع بناء واجهة بعقد API مختلف.

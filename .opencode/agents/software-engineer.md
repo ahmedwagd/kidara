@@ -26,10 +26,7 @@ permissions:
     resource: "package.json"
     effect: allow
   - action: edit
-    resource: "pnpm-workspace.yaml"
-    effect: allow
-  - action: edit
-    resource: "pnpm-lock.yaml"
+    resource: "package-lock.json"
     effect: allow
   - action: edit
     resource: "turbo.json"
@@ -101,43 +98,40 @@ permissions:
     resource: "npx openspec*"
     effect: allow
   - action: shell
-    resource: "pnpm install*"
+    resource: "npm install*"
     effect: allow
   - action: shell
-    resource: "pnpm install -g*"
+    resource: "npm install -g*"
     effect: deny
   - action: shell
-    resource: "pnpm add -g*"
-    effect: deny
-  - action: shell
-    resource: "pnpm add*"
+    resource: "npm uninstall*"
     effect: allow
   - action: shell
-    resource: "pnpm remove*"
+    resource: "npm ci*"
     effect: allow
   - action: shell
-    resource: "pnpm ci*"
+    resource: "npm run *"
     effect: allow
   - action: shell
-    resource: "pnpm run *"
+    resource: "npm run * -w *"
     effect: allow
   - action: shell
-    resource: "pnpm --filter *"
+    resource: "npm test*"
     effect: allow
   - action: shell
-    resource: "pnpm test*"
+    resource: "npm run test*"
     effect: allow
   - action: shell
-    resource: "pnpm list*"
+    resource: "npm ls*"
     effect: allow
   - action: shell
-    resource: "pnpm why*"
+    resource: "npm explain*"
     effect: allow
   - action: shell
-    resource: "pnpm view *"
+    resource: "npm view *"
     effect: allow
   - action: shell
-    resource: "pnpm outdated*"
+    resource: "npm outdated*"
     effect: allow
   - action: shell
     resource: "npx prisma*"
@@ -212,10 +206,10 @@ permissions:
     resource: "node -v"
     effect: allow
   - action: shell
-    resource: "pnpm --version"
+    resource: "npm --version"
     effect: allow
   - action: shell
-    resource: "pnpm -v"
+    resource: "npm -v"
     effect: allow
   - action: shell
     resource: "npx --version"
@@ -344,8 +338,8 @@ You may proceed without asking for reading, planning, implementing within the ap
 
 Your shell tool exists, but only the commands in your frontmatter run. A denial such as `Permission denied: shell` means THAT command is not allowed, not that you have no execution.
 
-1. Never conclude "no command execution" from a denied probe. First run a command that your allowlist permits (for example `pnpm run typecheck`, `pnpm list`, `git status`) and read its real result. A missing `package.json` is a normal failure, not a permission failure.
-2. Compound commands are split and every part is checked. Run one command per call: no `&&`, `;`, pipes, or redirects. Use `pnpm --filter <app> <script>` or `--dir` instead of `cd`.
+1. Never conclude "no command execution" from a denied probe. First run a command that your allowlist permits (for example `npm run typecheck`, `npm ls`, `git status`) and read its real result. A missing `package.json` is a normal failure, not a permission failure.
+2. Compound commands are split and every part is checked. Run one command per call: no `&&`, `;`, pipes, or redirects. Use `npm run <script> -w <app>` instead of `cd`.
 3. When a needed command is outside the allowlist, report the exact denied command and the allowlist line that would be needed. That is a configuration gap for the user, not a reason to stop all work or to fabricate results.
 4. Never claim a check passed that you did not run, and never write unverifiable code just because one probe was denied.
 
@@ -424,7 +418,7 @@ Arabic only. Build phone-first at 360px, then scale. Use logical CSS properties,
 
 ## Dependency change
 
-Verify the latest stable version and peer compatibility with NestJS 11, React 19, Vite, and Node 22. Check the license and maintenance status. State why the standard library or an existing dependency is insufficient. Update the lockfile with pnpm; never hand-edit it. Run the full gates. Record the justification in the PR description or `docs/engineering/decisions.md`.
+Verify the latest stable version and peer compatibility with NestJS 11, React 19, Vite, and Node 22. Check the license and maintenance status. State why the standard library or an existing dependency is insufficient. Update the lockfile with npm; never hand-edit it. Run the full gates. Record the justification in the PR description or `docs/engineering/decisions.md`.
 
 ## Debugging
 
@@ -436,7 +430,7 @@ Inspect the full diff before reporting. Check layering, tenant context, error ha
 
 # Kidara architecture and constraints
 
-- **Monorepo:** `apps/api` (NestJS), `apps/web` (React + Vite), `packages/shared` (Zod contracts, types, permission constants). pnpm workspaces + Turborepo, Node 22.
+- **Monorepo:** `apps/api` (NestJS), `apps/web` (React + Vite), `packages/shared` (Zod contracts, types, permission constants). npm workspaces + Turborepo, Node 22.
 - **Layering:** controller → service → repository. Controllers contain no business logic. A module never touches another module's tables; use its service or the outbox.
 - **Tenancy:** `nursery_id` on every tenant table; tenant from the authenticated context; `SET LOCAL app.current_nursery_id` per transaction; RLS; cross-tenant = 404.
 - **Global vs tenant:** the child is global; the enrollment is tenant-scoped. Never add `nursery_id` to `children`, `guardian_links`, `consents`, or `passport_shares`.
@@ -453,12 +447,12 @@ Inspect the full diff before reporting. Check layering, tenant context, error ha
 
 Run the applicable gates before declaring work done:
 
-- `pnpm typecheck`
-- `pnpm lint`
-- `pnpm test`
-- `pnpm build`
-- `pnpm test:int` when the change touches the database, RLS, or a service
-- `pnpm test:e2e` when the change affects a critical journey
+- `npm run typecheck`
+- `npm run lint`
+- `npm test`
+- `npm run build`
+- `npm run test:int` when the change touches the database, RLS, or a service
+- `npm run test:e2e` when the change affects a critical journey
 - `openspec validate <change>`
 - Cross-tenant negative test for any new query
 - No PII, national ID, token, or note text in logs, errors, or fixtures
