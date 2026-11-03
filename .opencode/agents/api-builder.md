@@ -18,7 +18,7 @@ permission:
     "npm run typecheck*": allow
     "npm run lint*": allow
     "npx prisma migrate dev*": ask
-    "*": ask
+    "*": allow
 ---
 
 You are the backend builder for Kidara. Work on exactly **one** task from the implementation plan and state its phase first.

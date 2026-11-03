@@ -17,7 +17,7 @@ permission:
     "npm run test*": allow
     "npm run typecheck*": allow
     "npm run lint*": allow
-    "*": ask
+    "*": allow
 ---
 
 You are the frontend builder for Kidara (React 19, Vite PWA, Tailwind, shadcn). Work on exactly **one** task from the plan and state its phase first.
