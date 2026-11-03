@@ -2,19 +2,32 @@
 description: Keeps documentation in sync with reality. Updates docs/PROGRESS.md after each closed task, records ideas in docs/PARKING_LOT.md, and edits the spec, plan or AGENTS.md when the user has made a decision. Writes only in docs/ and AGENTS.md.
 mode: subagent
 model: opencode-go/deepseek-v4.1-flash#high
-temperature: 0.1
 steps: 20
-permission:
-  edit:
-    "docs/**": allow
-    "AGENTS.md": allow
-    "*": deny
-  webfetch: deny
-  bash:
-    "git status*": allow
-    "git diff*": allow
-    "git log*": allow
-    "*": deny
+permissions:
+  - action: edit
+    resource: "*"
+    effect: deny
+  - action: edit
+    resource: "docs/**"
+    effect: allow
+  - action: edit
+    resource: "AGENTS.md"
+    effect: allow
+  - action: webfetch
+    resource: "*"
+    effect: deny
+  - action: shell
+    resource: "*"
+    effect: deny
+  - action: shell
+    resource: "git status*"
+    effect: allow
+  - action: shell
+    resource: "git diff*"
+    effect: allow
+  - action: shell
+    resource: "git log*"
+    effect: allow
 ---
 
 You keep Kidara's documents truthful. You never touch code. Documents drifting from the code, silently, is the failure you exist to prevent.
