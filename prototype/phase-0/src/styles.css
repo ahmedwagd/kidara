@@ -1,0 +1,937 @@
+/* Kidara Phase 0 prototype — phone-first, Arabic-only RTL.
+   Plain CSS with logical properties; Cairo Variable (bundled) + system fallback. */
+
+:root {
+  --color-bg: #f6f2ea;
+  --color-surface: #ffffff;
+  --color-ink: #241a10;
+  --color-ink-soft: #6b5c49;
+  --color-brand: #1f7a4d;
+  --color-brand-strong: #166240;
+  --color-danger: #c62828;
+  --color-danger-bg: #fdeceb;
+  --color-chip: #eef2ee;
+  --color-warn: #b26a00;
+  --radius: 14px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --target: 44px;
+  font-size: 16px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Cairo Variable', 'Segoe UI', Tahoma, sans-serif;
+  background: var(--color-bg);
+  color: var(--color-ink);
+  line-height: 1.55;
+}
+
+button {
+  font-family: inherit;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ---------- buttons ---------- */
+.btn {
+  min-height: var(--target);
+  min-width: var(--target);
+  border: 1px solid #d9cfc0;
+  border-radius: 10px;
+  background: var(--color-surface);
+  color: var(--color-ink);
+  padding: 0 var(--space-3);
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.btn--primary {
+  background: var(--color-brand);
+  border-color: var(--color-brand-strong);
+  color: #fff;
+  font-weight: 700;
+}
+
+.btn--primary:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.btn--ghost {
+  background: transparent;
+}
+
+.btn--danger {
+  background: var(--color-danger);
+  border-color: #a01d1d;
+  color: #fff;
+}
+
+.btn--chip {
+  min-height: 40px;
+  border-radius: 999px;
+  background: var(--color-chip);
+  font-size: 0.95rem;
+}
+
+.btn--option {
+  background: #fff;
+  border-radius: 999px;
+  font-size: 0.95rem;
+}
+
+.btn--option.is-selected {
+  background: var(--color-brand);
+  border-color: var(--color-brand-strong);
+  color: #fff;
+  font-weight: 700;
+}
+
+.btn--stepper {
+  min-width: 48px;
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* ---------- header ---------- */
+.classroom-screen {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+.classroom-header {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 20;
+  background: var(--color-surface);
+  border-block-end: 1px solid #e7ddcd;
+  padding: var(--space-2) var(--space-3);
+  box-shadow: 0 1px 4px rgb(0 0 0 / 6%);
+}
+
+.classroom-header__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.classroom-header__name {
+  font-size: 1.15rem;
+  margin: 0;
+}
+
+.classroom-header__meta {
+  display: flex;
+  gap: var(--space-3);
+  align-items: center;
+  flex-wrap: wrap;
+  font-size: 0.9rem;
+  color: var(--color-ink-soft);
+}
+
+.classroom-header__count {
+  font-weight: 700;
+  color: var(--color-brand);
+}
+
+.save-indicator {
+  font-size: 0.8rem;
+  color: var(--color-ink-soft);
+  background: #f1ede4;
+  border-radius: 999px;
+  padding: 2px 10px;
+  white-space: nowrap;
+}
+
+.save-indicator--saving {
+  color: var(--color-brand);
+  font-weight: 600;
+}
+
+.save-indicator--error {
+  color: var(--color-danger);
+  font-weight: 600;
+}
+
+.confirm-names {
+  margin: 4px 0 0;
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+/* ---------- allergy banner ---------- */
+.allergy-banner {
+  background: var(--color-danger-bg);
+  color: var(--color-danger);
+  border-block-end: 2px solid var(--color-danger);
+  padding: var(--space-2) var(--space-3);
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.allergy-banner__title {
+  font-weight: 800;
+}
+
+.allergy-banner__list {
+  margin: 2px 0 0;
+  padding: 0 var(--space-3) 0 0;
+  list-style: none;
+}
+
+/* ---------- bulk panel ---------- */
+.classroom-scroll {
+  flex: 1;
+  padding: var(--space-3) var(--space-3) 132px; /* keeps last row clear of the sticky submit bar */
+}
+
+.bulk-panel {
+  background: var(--color-surface);
+  border: 1px solid #e7ddcd;
+  border-radius: var(--radius);
+  padding: var(--space-3);
+  margin-block-end: var(--space-3);
+}
+
+.bulk-panel__all-present {
+  width: 100%;
+  font-size: 1.1rem;
+}
+
+.bulk-panel__hint {
+  margin: var(--space-2) 0;
+  font-size: 0.8rem;
+  color: var(--color-ink-soft);
+}
+
+.bulk-panel__presets {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.bulk-presets__row {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.bulk-presets__row .bulk-preset {
+  flex: 1;
+  font-weight: 600;
+}
+
+.btn--chevron {
+  min-width: 44px;
+  font-weight: 700;
+  background: #f1ede4;
+}
+
+.bulk-preset__alternatives {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-block-start: var(--space-2);
+}
+
+/* ---------- child list ---------- */
+.child-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-2);
+}
+
+.child-row__button {
+  width: 100%;
+  min-height: 56px;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: var(--color-surface);
+  border: 1px solid #e7ddcd;
+  border-radius: 12px;
+  padding: var(--space-2) var(--space-3);
+  font-size: 1rem;
+  color: var(--color-ink);
+  cursor: pointer;
+  text-align: start;
+}
+
+.child-row__button:active {
+  background: #f4efe6;
+}
+
+.child-avatar {
+  inline-size: 40px;
+  block-size: 40px;
+  border-radius: 50%;
+  background: #e3efe6;
+  color: var(--color-brand-strong);
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.child-avatar--absent {
+  background: #f0e3e1;
+  color: #8a4b44;
+}
+
+.allergy-dot {
+  inline-size: 12px;
+  block-size: 12px;
+  border-radius: 50%;
+  background: var(--color-danger);
+  border: 2px solid #fff;
+  flex-shrink: 0;
+}
+
+.child-row__badge {
+  background: #fff2df;
+  color: var(--color-warn);
+  border-radius: 6px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 2px 4px;
+}
+
+.child-row__name {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 600;
+}
+
+.attendance-chip {
+  font-size: 0.78rem;
+  border-radius: 999px;
+  padding: 4px 10px;
+  background: var(--color-chip);
+  color: var(--color-ink-soft);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.attendance-chip--present {
+  background: var(--color-brand);
+  color: #fff;
+}
+
+.attendance-chip--late,
+.attendance-chip--early_leave {
+  background: #fff2df;
+  color: var(--color-warn);
+}
+
+.attendance-chip--absent {
+  background: #fdeceb;
+  color: var(--color-danger);
+}
+
+.classroom-empty {
+  text-align: center;
+  color: var(--color-ink-soft);
+  padding: 2rem 0;
+}
+
+.classroom-empty__hint {
+  margin: var(--space-1) 0 0;
+  font-size: 0.9rem;
+}
+
+.sheet__absent-hint {
+  margin: 0 0 var(--space-2);
+  font-weight: 700;
+  color: var(--color-warn);
+}
+
+/* ---------- sticky submit bar ---------- */
+.submit-bar {
+  position: fixed;
+  inset-block-end: 0;
+  inset-inline: 0;
+  background: var(--color-surface);
+  border-block-start: 1px solid #e7ddcd;
+  box-shadow: 0 -2px 8px rgb(0 0 0 / 8%);
+  padding: var(--space-2) var(--space-3) calc(var(--space-2) + env(safe-area-inset-block-end, 0px));
+  display: grid;
+  gap: var(--space-1);
+  z-index: 30;
+}
+
+.submit-bar__button {
+  width: 100%;
+  font-size: 1.05rem;
+}
+
+.submit-bar__remaining {
+  font-size: 0.85rem;
+  color: var(--color-warn);
+  text-align: center;
+  min-height: 1.2em;
+}
+
+/* ---------- sheets ---------- */
+.sheet-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgb(0 0 0 / 40%);
+  z-index: 50;
+  display: flex;
+  align-items: flex-end;
+}
+
+.sheet {
+  width: 100%;
+  max-inline-size: 560px;
+  margin-inline: auto;
+  background: var(--color-surface);
+  border-start-start-radius: 20px;
+  border-start-end-radius: 20px;
+  max-block-size: 88dvh;
+  overflow-y: auto;
+  padding: var(--space-3) var(--space-4) calc(var(--space-4) + env(safe-area-inset-block-end, 0px));
+}
+
+.sheet__header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  margin-block-end: var(--space-3);
+  position: sticky;
+  inset-block-start: 0;
+  background: var(--color-surface);
+  padding-block: var(--space-2);
+}
+
+/* 44px close affordance in the sticky header — plus Escape and «تم». */
+.sheet__close {
+  min-height: var(--target);
+  min-width: var(--target);
+  border: none;
+  background: transparent;
+  color: var(--color-ink);
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.sheet__title {
+  font-size: 1.15rem;
+  margin: 0;
+  flex: 1;
+}
+
+.sheet__allergy {
+  color: var(--color-danger);
+  font-weight: 700;
+  font-size: 0.85rem;
+  background: var(--color-danger-bg);
+  border-radius: 999px;
+  padding: 2px 10px;
+}
+
+.child-avatar--sheet {
+  inline-size: 44px;
+  block-size: 44px;
+}
+
+.sheet__section {
+  border-block-start: 1px dashed #e7ddcd;
+  padding-block: var(--space-3);
+}
+
+.sheet__section.is-disabled {
+  opacity: 0.45;
+}
+
+.sheet__section-title {
+  font-size: 0.95rem;
+  margin: 0 0 var(--space-2);
+  color: var(--color-ink-soft);
+  font-weight: 700;
+}
+
+.sheet__hint {
+  font-size: 0.8rem;
+  color: var(--color-ink-soft);
+}
+
+.option-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-block-end: var(--space-3);
+}
+
+.toilet-stepper {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-block: var(--space-2) var(--space-3);
+}
+
+.toilet-stepper__label {
+  font-size: 0.9rem;
+  color: var(--color-ink-soft);
+}
+
+.toilet-stepper__value {
+  min-width: 2ch;
+  text-align: center;
+  font-weight: 700;
+}
+
+.sheet__textarea {
+  width: 100%;
+  min-height: 88px;
+  border: 1px solid #d9cfc0;
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 1rem;
+  padding: var(--space-2);
+}
+
+/* Sticky footer: «تم» (or the review actions) stays visible at the target
+   phone widths (393–412 px) no matter how tall the sheet content is. */
+.sheet__footer {
+  position: sticky;
+  inset-block-end: 0;
+  display: flex;
+  gap: var(--space-2);
+  margin-block-start: var(--space-3);
+  background: var(--color-surface);
+  padding-block: var(--space-2) calc(var(--space-2) + env(safe-area-inset-block-end, 0px));
+  border-block-start: 1px solid #e7ddcd;
+}
+
+.sheet__footer .btn--primary {
+  flex: 1;
+}
+
+.confirm-counts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(72px, 1fr));
+  gap: var(--space-2);
+  margin: 0;
+}
+
+.confirm-counts > div {
+  background: #f4efe6;
+  border-radius: 10px;
+  padding: var(--space-2);
+  text-align: center;
+  margin: 0;
+}
+
+.confirm-counts dt {
+  font-size: 0.78rem;
+  color: var(--color-ink-soft);
+}
+
+.confirm-counts dd {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 800;
+}
+
+.confirm-warnings {
+  margin: 0;
+  padding: 0 var(--space-4) 0 0;
+  color: var(--color-warn);
+  font-size: 0.9rem;
+}
+
+.submit-error__text {
+  color: var(--color-danger);
+  font-weight: 700;
+}
+
+/* ---------- success ---------- */
+.success-screen {
+  padding: var(--space-4);
+  max-inline-size: 560px;
+  margin-inline: auto;
+}
+
+.success-card {
+  background: var(--color-surface);
+  border-radius: var(--radius);
+  border: 1px solid #e7ddcd;
+  padding: var(--space-4);
+}
+
+.success-screen__title {
+  font-size: 1.3rem;
+  margin: 0 0 var(--space-1);
+}
+
+.success-screen__kicker {
+  color: var(--color-brand);
+  font-weight: 700;
+  margin: 0 0 var(--space-3);
+}
+
+.success-screen__facts {
+  margin-block-end: var(--space-3);
+}
+
+.success-screen__readonly {
+  margin-block-start: var(--space-3);
+  color: var(--color-ink-soft);
+  font-size: 0.85rem;
+}
+
+/* ---------- toasts ---------- */
+.toast-stack {
+  position: fixed;
+  inset-block-start: 96px;
+  inset-inline: var(--space-3);
+  z-index: 80;
+  display: grid;
+  gap: var(--space-2);
+}
+
+.toast {
+  background: #2f2a24;
+  color: #fff;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  box-shadow: 0 4px 14px rgb(0 0 0 / 25%);
+}
+
+.toast--warn {
+  background: #7a1f1f;
+}
+
+.toast__close {
+  background: transparent;
+  color: inherit;
+  border: none;
+  font-size: 1.1rem;
+  cursor: pointer;
+  min-height: var(--target);
+  min-width: var(--target);
+}
+
+/* ---------- facilitator ---------- */
+.facilitator-toggle {
+  position: fixed;
+  inset-block-start: 4px;
+  inset-inline-start: 4px;
+  z-index: 90;
+  opacity: 0.75;
+  border-radius: 999px;
+  border: 1px dashed #a08b6e;
+  background: #fff8ea;
+  font-size: 0.75rem;
+  padding: 4px 10px;
+  cursor: pointer;
+}
+
+.facilitator-panel {
+  position: fixed;
+  inset-block-end: 96px;
+  inset-inline: var(--space-2);
+  /* Below the sheet overlays (z-index 50) so dialogs always win; the fixed
+     toggle (z-index 90) stays reachable to close it before handing the device
+     to the teacher. */
+  z-index: 40;
+  background: #fff8ea;
+  border: 2px dashed #a08b6e;
+  border-radius: var(--radius);
+  padding: var(--space-3);
+  max-block-size: 40dvh;
+  overflow-y: auto;
+  font-size: 0.85rem;
+}
+
+.facilitator-panel__title {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.facilitator-panel__hint {
+  color: var(--color-ink-soft);
+  margin: 2px 0 var(--space-3);
+  font-size: 0.75rem;
+}
+
+.facilitator-panel__section {
+  border-block-start: 1px dashed #d5c5a9;
+  padding-block: var(--space-2);
+  display: grid;
+  gap: var(--space-1);
+}
+
+.facilitator-panel__row {
+  margin: 0;
+}
+
+.facilitator-panel__result {
+  background: #f3ecdd;
+  border-radius: 8px;
+  padding: 6px 8px;
+}
+
+.facilitator-panel__label {
+  font-weight: 700;
+}
+
+.facilitator-panel__notes {
+  min-height: 64px;
+  border-radius: 8px;
+  border: 1px solid #d5c5a9;
+  font-family: inherit;
+  padding: 6px;
+  font-size: 0.85rem;
+}
+
+.facilitator-panel__switch {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.facilitator-panel__switch input {
+  inline-size: 22px;
+  block-size: 22px;
+}
+
+.facilitator-aggregate {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
+  gap: var(--space-2);
+  margin: 0;
+}
+
+.facilitator-aggregate > div {
+  background: #fff;
+  border-radius: 8px;
+  padding: 6px;
+  text-align: center;
+  margin: 0;
+}
+
+.facilitator-aggregate dt {
+  font-size: 0.7rem;
+  color: var(--color-ink-soft);
+}
+
+.facilitator-aggregate dd {
+  margin: 0;
+  font-weight: 800;
+}
+
+.facilitator-confirm {
+  border: 1px solid #a08b6e;
+  border-radius: 10px;
+  padding: var(--space-2);
+  margin-block: var(--space-2);
+}
+
+.facilitator-confirm__actions {
+  display: flex;
+  gap: var(--space-2);
+}
+
+/* ---------- narrow phones ---------- */
+@media (min-width: 700px) {
+  .classroom-header,
+  .classroom-scroll,
+  .sheet,
+  .submit-bar,
+  .success-screen {
+    max-width: 640px;
+    margin-inline: auto;
+  }
+}
+
+/* ---------- parent day sheet (read-only, plan task 2, first half) ---------- */
+.parent-day {
+  min-height: 100dvh;
+  padding: var(--space-4) var(--space-3);
+}
+
+.parent-day__card {
+  background: var(--color-surface);
+  border: 1px solid #e7ddcd;
+  border-radius: var(--radius);
+  padding: var(--space-4);
+  max-inline-size: 560px;
+  margin-inline: auto;
+}
+
+.parent-day__status {
+  background: var(--color-surface);
+}
+
+.parent-day__status-text {
+  margin: 0 0 var(--space-3);
+  color: var(--color-ink);
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+/* Fallback actions live under the state message, in softer ink. */
+.parent-day__status-fallback {
+  margin: 0 0 var(--space-3);
+  color: var(--color-ink-soft);
+  font-size: 0.9rem;
+}
+
+.parent-day__header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-block-end: var(--space-3);
+}
+
+.parent-day__kicker {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--color-brand);
+  font-weight: 700;
+}
+
+.parent-day__name {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.parent-day__meta {
+  margin: var(--space-1) 0 0;
+  color: var(--color-ink-soft);
+  font-size: 0.85rem;
+}
+
+/* Same visual language as the classroom allergy strip, as a card + note line. */
+.parent-day__allergy {
+  background: var(--color-danger-bg);
+  color: var(--color-danger);
+  border-inline-start: 3px solid var(--color-danger);
+  border-radius: 10px;
+  padding: var(--space-2) var(--space-3);
+  margin-block-end: var(--space-3);
+}
+
+/* Fix round: the caption «تنبيه حساسية» sits on its own small line above the
+   seeded label so the two do not join into a colon line repeating «حساسية».
+   The strong keeps .allergy-banner__title styling; block display is scoped to
+   the parent card only (the teacher banner is untouched). */
+.parent-day__allergy-caption {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.parent-day__allergy .allergy-banner__title {
+  display: block;
+}
+
+.parent-day__allergy-note {
+  margin: var(--space-1) 0 0;
+  font-size: 0.8rem;
+}
+
+.parent-day__facts {
+  margin: 0;
+  display: grid;
+  gap: var(--space-2);
+}
+
+.parent-day__facts > div {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+  background: #f4efe6;
+  border-radius: 10px;
+  padding: var(--space-2) var(--space-3);
+  margin: 0;
+}
+
+.parent-day__facts dt {
+  color: var(--color-ink-soft);
+  font-size: 0.9rem;
+}
+
+.parent-day__facts dd {
+  margin: 0;
+  font-weight: 700;
+}
+
+.parent-day__absent-hint {
+  margin: var(--space-2) 0 0;
+  color: var(--color-warn);
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.parent-day__section {
+  border-block-start: 1px dashed #e7ddcd;
+  padding-block: var(--space-3);
+}
+
+.parent-day__note-text {
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+/* The retry CTA must stay a real 44 px+ touch target even with
+   sub-pixel rounding of the 44 px button min-height. */
+.parent-day__card .btn--primary {
+  min-block-size: 46px;
+}
+
+/* Short state cards (loading/empty/error/invalid) are centred on the screen,
+   so everything — including the retry button — is inside the initial viewport
+   at 393×852 and 412×915. */
+.parent-day--short {
+  display: grid;
+  align-content: center;
+}
+
+/* Scoped contrast fix (fix round): the parent absent line is explanatory, not
+   a warning — --color-warn on white is below 4.5:1, --color-ink-soft passes.
+   Appended after the original rule; no shared token is changed. */
+.parent-day__absent-hint {
+  color: var(--color-ink-soft);
+}
