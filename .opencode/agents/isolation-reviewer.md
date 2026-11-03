@@ -3,6 +3,7 @@ description: Security review of diffs touching database schema, RLS, guards, aut
 mode: subagent
 model: opencode-go/glm-5.3-flash
 temperature: 0.1
+steps: 20
 permission:
   edit: deny
   webfetch: deny
@@ -12,7 +13,8 @@ permission:
     "git status*": allow
     "grep*": allow
     "rg*": allow
-    "<pm> test*": allow
+    "npm test*": allow
+    "npm run test*": allow
     "*": deny
 ---
 

@@ -23,7 +23,7 @@ If code and these docs disagree, stop and ask. Do not silently pick one. The doc
 - Shared: `packages/shared` (Zod schemas, types, constants), used by both apps
 - Monorepo: `apps/api`, `apps/web`, `packages/shared`, `docs/`, `docker-compose.yml`
 
-Package manager and exact scripts are set in Phase 1. Once they exist, list the commands here (install, dev, test, lint, typecheck, migrate).
+Package manager: **npm** (workspaces). The root `package.json` must define the scripts `typecheck`, `lint` and `test` in Phase 1; the verification plugin and the agents' bash permissions rely on those names. Once the rest exist (dev, migrate), list the commands here.
 
 ## Phase order (build from the outcome backwards)
 
@@ -108,7 +108,18 @@ Rules of the team:
 - Whoever writes code never reviews it. A reviewer runs on a different model family from the builder it reviews.
 - `isolation-reviewer` is mandatory for any change touching schema, RLS, guards, auth, audit, enrollment visibility, attendance, pickup passes or QR tokens, or any query on tenant-owned data.
 - A task is closed only after clean reviews, the Definition of Done, and a `docs-keeper` progress update.
-- `.opencode/plugin/verify-on-idle.ts` runs typecheck, lint and tests when a session ends with uncommitted changes. Its result outranks any agent's claim that something passes.
+- `.opencode/plugins/verify-on-idle.ts` runs typecheck, lint and tests when a session ends with uncommitted changes. Its result outranks any agent's claim that something passes.
+
+### Working in the built-in agents (`build`, `plan`)
+
+The built-in primary agents are deliberately not restricted, and the orchestrator is optional. The rules in this file apply to every agent and session, so when you work in `build` or `plan`:
+
+- Follow the non-negotiable rules and the Definition of Done exactly as the team does.
+- For a change in a sensitive area (see `isolation-reviewer` above), call `@isolation-reviewer` on your diff before calling the work done. For other changes, `@spec-guardian` is available for a gate or a final check.
+- After finishing a task, call `@docs-keeper` to update `docs/PROGRESS.md`.
+- End your report with a "Suggested next step" (below).
+
+These are working conventions, not enforcement. Nothing here blocks the user from using any agent directly.
 
 ## Progress tracking and the parking lot
 

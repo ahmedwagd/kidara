@@ -3,6 +3,7 @@ description: Implements frontend work for one plan task in apps/web - React scre
 mode: subagent
 model: opencode-go/glm-5.3-flash
 temperature: 0.2
+steps: 60
 permission:
   edit:
     "apps/api/**": deny
@@ -12,9 +13,10 @@ permission:
   bash:
     "git status*": allow
     "git diff*": allow
-    "<pm> test*": allow
-    "<pm> typecheck*": allow
-    "<pm> lint*": allow
+    "npm test*": allow
+    "npm run test*": allow
+    "npm run typecheck*": allow
+    "npm run lint*": allow
     "*": ask
 ---
 

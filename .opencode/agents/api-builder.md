@@ -3,6 +3,7 @@ description: Implements backend work for one plan task - NestJS modules, Prisma 
 mode: subagent
 model: opencode-go/deepseek-v4.1-flash#max
 temperature: 0.2
+steps: 60
 permission:
   edit:
     "apps/web/**": deny
@@ -12,10 +13,11 @@ permission:
   bash:
     "git status*": allow
     "git diff*": allow
-    "<pm> test*": allow
-    "<pm> typecheck*": allow
-    "<pm> lint*": allow
-    "<pm> prisma migrate dev*": ask
+    "npm test*": allow
+    "npm run test*": allow
+    "npm run typecheck*": allow
+    "npm run lint*": allow
+    "npx prisma migrate dev*": ask
     "*": ask
 ---
 

@@ -31,5 +31,5 @@ None.
 
 - Phase 0 usability test with at least 3 teachers from the partner nursery.
 - Legal review of children's data requirements (Egyptian PDPL 151/2020) before real data is used.
-- Fill the `<pm>` placeholders in `.opencode/agent/*.md` and `.opencode/plugin/verify-on-idle.ts`; confirm model IDs with `opencode models`.
+- Confirm model IDs with `opencode models` and the agent settings with `opencode debug agent <name>` (OpenCode v2.1.4). Create root npm scripts `typecheck`, `lint`, `test` in Phase 1 so `.opencode/plugins/verify-on-idle.ts` can run.
 - Confirm the partner nursery and the pilot dates.
